@@ -16,7 +16,7 @@
     <tbody>
       {% for result in results %}
         <tr>
-          <td style="padding: 10px; border: 1px solid #ddd;">{{ result.stock }}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">{{ result.stock }} <h4>Epic:{{ result.epic_key }} </h4></td>
           
           <!-- Check if error exists and display error message -->
           {% if result.error %}
@@ -30,6 +30,8 @@
               {% for price in result.close_price_data %}
                 <span style="background-color: green; color: white; padding: 3px 7px; border-radius: 10px; margin: 5px; display: inline-block;">
                   {{ price }}
+                  
+
                 </span>{% if not loop.last %}<span>, </span>{% endif %}
               {% endfor %}
             </td>

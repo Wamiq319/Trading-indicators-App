@@ -33,9 +33,7 @@ def ensure_dataframe(data) -> pd.DataFrame:
 
 
 def calculate_rsi(rsi_data_frame, period: int = 14) -> float:
-    logger.debug(f"Data received for RSI calculation:\n{rsi_data_frame}")
-    logger.debug(f"Columns in the data: {rsi_data_frame.columns}")
-    
+    logger.debug(f"Data received for RSI calculation..")
     # Ensure 'Close' column exists in the DataFrame
     if 'Close' not in rsi_data_frame.columns:
         logger.error("'Close' column is missing in the DataFrame.")
@@ -43,7 +41,7 @@ def calculate_rsi(rsi_data_frame, period: int = 14) -> float:
     
     # Calculate the delta
     delta = rsi_data_frame['Close'].diff()  # Difference of 'Close' prices
-    logger.debug(f"Delta:\n{delta}")
+    
     
     # Calculate the gains and losses
     gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()  # Gain (positive deltas)

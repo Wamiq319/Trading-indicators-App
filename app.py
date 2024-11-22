@@ -28,6 +28,7 @@ def rsi_indicator():
             # Append the stock data if both close_prices and rsi_value are available
             closePrice =rsi_data['close_prices']
             results.append({
+                "epic_key":rsi_data['epic_key'],
                 "stock": stock,
                 "close_price_data": list(closePrice['Close'].apply(lambda x: x)),  # List of close prices
                 "rsi_value": rsi_data['rsi_value'],  # RSI value

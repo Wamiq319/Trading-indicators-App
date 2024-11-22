@@ -37,7 +37,8 @@ async def check_rsi(stock: str):
             return {"error": "No historical data found."}
         
         historic_data = data['historic_data']
-        
+        logger.debug("HistoricPrice-DATA FOR: %s :: %s", stock, historic_data)
+
         # Extract close prices
         close_prices = [
             entry.get("closePrice", {}).get("bid")
