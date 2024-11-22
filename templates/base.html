@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stock Analysis</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Stock Analysis</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/rsi_indicator">Indicator 1</a></li>
+          <li><a href="/macd">Indicator 2</a></li>
+          <li><a href="/mfi">Indicator 3</a></li>
+          <li><a href="/stock_sales">Stock Sales</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="content">{% block content %} {% endblock %}</div>
+  </body>
+</html>
