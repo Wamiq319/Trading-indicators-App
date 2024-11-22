@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def calculate_rsi(data: pd.DataFrame, period: int = 14) -> float:
   delta = data['Close'].diff()
   gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
