@@ -2,8 +2,14 @@ from datetime import datetime, timedelta
 import aiohttp
 import logging
 import colorlog
-import pandas as pd
 from typing import Optional, Dict
+from decouple import config
+
+# Load configuration from the .env file
+IG_API_KEY = config("IG_API_KEY")
+IG_USERNAME = config("IG_USERNAME")
+IG_PASSWORD = config("IG_PASSWORD")
+BASE_URL = config("BASE_URL")
 
 # Configure color logging
 handler = colorlog.StreamHandler()
@@ -21,26 +27,18 @@ logger = logging.getLogger("IGLogger")
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
-# Configuration constants
-CONFIG = {
-    "IG_API_KEY": "18ff83c5017f0707342bf6b2195607fa35b22093",
-    "IG_USERNAME": "StevenAPI",
-    "IG_PASSWORD": "Password123",
-    "BASE_URL": "https://demo-api.ig.com/gateway/deal",
-}
-
 # Authentication Function
 async def authenticate() -> Optional[Dict[str, str]]:
-    url = f"{CONFIG['BASE_URL']}/session"
+    url = f"{BASE_URL}/session"
     headers = {
-        "X-IG-API-KEY": CONFIG["IG_API_KEY"],
+        "X-IG-API-KEY": IG_API_KEY,
         "Content-Type": "application/json",
         "Accept": "application/json",
         "Version": "1",
     }
     payload = {
-        "identifier": CONFIG["IG_USERNAME"],
-        "password": CONFIG["IG_PASSWORD"],
+        "identifier": IG_USERNAME,
+        "password": IG_PASSWORD,
     }
 
     try:
@@ -57,7 +55,7 @@ async def authenticate() -> Optional[Dict[str, str]]:
 
                 logger.info("Authentication successful.")
                 return {
-                    "X-IG-API-KEY": CONFIG["IG_API_KEY"],
+                    "X-IG-API-KEY": IG_API_KEY,
                     "Content-Type": "application/json",
                     "Accept": "application/json",
                     "CST": client_token,
@@ -100,7 +98,7 @@ async def fetch_historic_data(
         to_time = current_time.strftime("%Y-%m-%dT%H:%M:%S")
         
         url = (
-            f"{CONFIG['BASE_URL']}/prices/{epic_key}?resolution={resolution}"
+            f"{BASE_URL}/prices/{epic_key}?resolution={resolution}"
             f"&from={from_time}&to={to_time}&max={max_results}&pageSize={page_size}&pageNumber={page_number}"
         )
 
@@ -124,7 +122,7 @@ async def fetch_historic_data(
 async def search_stock_in_market(
     stock_name: str, auth_headers: Dict[str, str]
 ) -> Optional[Dict[str, str]]:
-    url = f"{CONFIG['BASE_URL']}/markets?searchTerm={stock_name}"
+    url = f"{BASE_URL}/markets?searchTerm={stock_name}"
     try:
         logger.info(f"Searching for stock {stock_name} in market...")
         async with aiohttp.ClientSession() as session:
